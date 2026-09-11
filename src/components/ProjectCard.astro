@@ -1,0 +1,66 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  tags: string[];
+  href: string;
+  accent?: string;
+  org?: string;
+  link?: string;
+}
+const {
+  title,
+  description,
+  tags,
+  href,
+  accent = "var(--color-tertiary-container)",
+  org,
+  link,
+} = Astro.props;
+---
+
+<div
+  class="theme-transition group relative block rounded-[var(--radius-xl)] p-6 transition-transform duration-300 hover:scale-[1.01] md:p-8"
+  style={`background:${accent}`}
+>
+  <a
+    href={href}
+    class="absolute inset-0 z-10 rounded-[var(--radius-xl)]"
+    aria-label={`View ${title} details`}
+  >
+  </a>
+
+  <div class="relative z-20 flex items-start justify-between gap-4 pointer-events-none">
+    <div class="pointer-events-auto">
+      {org && <p class="mb-1 text-xs font-medium text-[var(--color-ink)]/60">{org}</p>}
+      <h3 class="font-[var(--font-display)] text-2xl font-bold md:text-3xl">{title}</h3>
+    </div>
+
+    {
+      link ? (
+        <a
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="pointer-events-auto grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/70 text-[var(--color-chip-ink)] transition-all duration-200 hover:scale-110 hover:bg-white"
+          aria-label={`Visit external link for ${title}`}
+          title="Open external website"
+        >
+          ↗
+        </a>
+      ) : (
+        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/70 text-[var(--color-chip-ink)] transition-colors group-hover:bg-white">
+          ↗
+        </span>
+      )
+    }
+  </div>
+
+  <p class="relative z-20 mt-3 max-w-md text-[var(--color-ink)]/75 pointer-events-none">{description}</p>
+  <ul class="relative z-20 mt-5 flex flex-wrap gap-2 pointer-events-none">
+    {tags.map((tag) => (
+      <li class="rounded-full bg-white/55 px-3 py-1 text-xs font-medium text-[var(--color-chip-ink)]">{tag}</li>
+    ))}
+  </ul>
+</div>
+

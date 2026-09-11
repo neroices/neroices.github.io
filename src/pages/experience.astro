@@ -1,0 +1,33 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { experience } from "../data/experience.js";
+---
+
+<Layout title="Experience — neroices">
+  <section class="pb-24 pt-8 md:pt-16">
+    <h1
+      class="mb-12 font-[var(--font-display)] text-5xl font-bold md:text-6xl"
+      style="font-variation-settings: 'wght' 800;"
+    >
+      Experience
+    </h1>
+
+    <div class="space-y-10 border-l border-[var(--color-surface-dim)] pl-8">
+      {
+        experience.map((role) => (
+          <div class="relative">
+            <span class="absolute -left-[calc(2rem+5px)] top-1.5 h-2.5 w-2.5 rounded-full bg-[var(--color-primary)]" />
+            <p class="text-sm text-[var(--color-secondary)]">{role.period}</p>
+            <h2 class="mt-1 font-[var(--font-display)] text-2xl font-bold">
+              {role.role}
+            </h2>
+            <p class="text-[var(--color-primary)]">{role.org}</p>
+            <p class="mt-2 max-w-xl text-[var(--color-ink)]/80">
+              {role.description}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

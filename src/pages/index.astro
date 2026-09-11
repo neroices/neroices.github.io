@@ -1,0 +1,63 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { projects } from "../data/projects.js";
+
+const personal = projects.filter((p) => p.type === "personal");
+const organizations = projects.filter((p) => p.type === "organization");
+---
+
+<Layout>
+  <section class="pb-16 pt-8 md:pb-24 md:pt-16">
+    <p class="mb-4 font-medium text-[var(--color-primary)]">
+      I don't know what's more pathetic. My life, or my code. But hey...
+    </p>
+    <h1
+      class="font-[var(--font-display)] text-[16vw] font-black leading-[0.95] tracking-tight md:text-[6.5vw]"
+      style="font-variation-settings: 'wght' 900, 'wdth' 100;"
+    >
+      I'm<br />neroices!
+    </h1>
+    <p class="mt-2 text-xs italic text-[var(--color-secondary)]">
+      with a lowercase 'n', of course :)
+    </p>
+    <p class="mt-8 max-w-lg text-lg text-[var(--color-secondary)]">
+      Software developer, rider, gamer, and full-time Linux user
+      <svg
+        class="inline-block h-[1.1em] w-[1.1em] align-[-0.18em] text-[var(--color-primary)]"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        role="img"
+        aria-label="Arch Linux"
+      >
+        <path
+          d="M11.39.605C10.376 3.092 9.764 4.72 8.635 7.132c.693.734 1.543 1.589 2.923 2.554-1.484-.61-2.496-1.224-3.252-1.86C6.86 10.842 4.596 15.138 0 23.395c3.612-2.085 6.412-3.37 9.021-3.862a6.61 6.61 0 01-.171-1.547l.003-.115c.058-2.315 1.261-4.095 2.687-3.973 1.426.12 2.534 2.096 2.478 4.409a6.52 6.52 0 01-.146 1.243c2.58.505 5.352 1.787 8.914 3.844-.702-1.293-1.33-2.459-1.929-3.57-.943-.73-1.926-1.682-3.933-2.713 1.38.359 2.367.772 3.137 1.234-6.09-11.334-6.582-12.84-8.67-17.74z"
+        ></path>
+      </svg>
+      (btw). Passionate about tinkering and ricing my OS, I also love tinkering with
+      Android and self-hosting services.
+    </p>
+  </section>
+
+  <section class="pb-20">
+    <h2 class="mb-6 text-lg font-medium text-[var(--color-secondary)]">
+      My projects
+    </h2>
+    <div class="grid gap-4 md:grid-cols-2">
+      {personal.map((p) => <ProjectCard {...p} href={`/work/${p.slug}`} />)}
+    </div>
+  </section>
+
+  <section class="pb-24">
+    <h2 class="mb-6 text-lg font-medium text-[var(--color-secondary)]">
+      Organizations
+    </h2>
+    <div class="grid gap-4 md:grid-cols-2">
+      {
+        organizations.map((p) => (
+          <ProjectCard {...p} href={`/work/${p.slug}`} />
+        ))
+      }
+    </div>
+  </section>
+</Layout>

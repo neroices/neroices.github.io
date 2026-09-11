@@ -1,0 +1,52 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { socials } from "../data/socials.js";
+---
+
+<Layout title="Contact — neroices">
+  <section class="pb-24 pt-8 md:pt-16">
+    <h1
+      class="mb-4 font-[var(--font-display)] text-5xl font-bold md:text-6xl"
+      style="font-variation-settings: 'wght' 800;"
+    >
+      Let's talk
+    </h1>
+    <p class="mb-10 max-w-lg text-lg text-[var(--color-secondary)]">
+      Easiest way to reach me is wherever you already are.
+    </p>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      {
+        socials.map((s) => (
+          <a
+            href={s.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="theme-transition group flex items-center justify-between rounded-[var(--radius-xl)] p-6 transition-transform duration-300 hover:scale-[1.01]"
+            style={`background:${s.accent}`}
+          >
+            <div>
+              <p class="font-[var(--font-display)] text-xl font-bold">
+                {s.name}
+              </p>
+              <p class="mt-1 text-sm text-[var(--color-ink)]/70">{s.handle}</p>
+            </div>
+            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/70 text-[var(--color-chip-ink)] transition-colors group-hover:bg-white">
+              ↗
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    <p class="mt-10 text-[var(--color-secondary)]">
+      Or email —
+      <a
+        href="mailto:slcee@proton.me"
+        class="font-medium text-[var(--color-primary)] hover:underline"
+      >
+        slcee@proton.me
+      </a>
+    </p>
+  </section>
+</Layout>
