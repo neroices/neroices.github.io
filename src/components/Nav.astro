@@ -169,8 +169,13 @@ const links = [
     if (persist) localStorage.setItem("theme-hue", String(hue));
   }
 
+  function normalize(p: string) {
+    return p.replace(/\/+$/, "") || "/";
+  }
+
   function currentIsWork(pathname: string) {
-    return pathname === "/" || pathname.startsWith("/work/");
+    const norm = normalize(pathname);
+    return norm === "/" || norm.startsWith("/work");
   }
 
   function updateNavIndicator() {
@@ -178,12 +183,12 @@ const links = [
     const indicator = document.getElementById("nav-indicator");
     if (!nav || !indicator) return;
 
-    const pathname = window.location.pathname;
+    const pathname = normalize(window.location.pathname);
     const anchors = nav.querySelectorAll<HTMLAnchorElement>("a[data-path]");
     let active: HTMLAnchorElement | null = null;
 
     for (const a of anchors) {
-      const linkPath = a.getAttribute("data-path") || "";
+      const linkPath = normalize(a.getAttribute("data-path") || "");
       const on =
         linkPath === "/" ? currentIsWork(pathname) : linkPath === pathname;
       if (on) active = a;
