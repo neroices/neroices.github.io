@@ -1,10 +1,30 @@
 ---
 const links = [
-  { href: "/", label: "~/" },
-  { href: "/experience", label: "Experience" },
-  { href: "/skills", label: "Skills" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  {
+    href: "/",
+    label: "~/",
+    icon: `<path d="M3 9.5 12 3l9 6.5" /><path d="M5 9.5V21h14V9.5" /><path d="M9 21v-6h6v6" />`,
+  },
+  {
+    href: "/experience",
+    label: "Experience",
+    icon: `<rect x="3" y="7.5" width="18" height="12" rx="2" /><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" /><path d="M3 12.5h18" />`,
+  },
+  {
+    href: "/skills",
+    label: "Skills",
+    icon: `<polyline points="4 6 9.5 12 4 18" /><line x1="12.5" y1="18" x2="20" y2="18" />`,
+  },
+  {
+    href: "/about",
+    label: "About",
+    icon: `<circle cx="12" cy="8.5" r="3.5" /><path d="M5 20c0-3.5 3.13-6 7-6s7 2.5 7 6" />`,
+  },
+  {
+    href: "/contact",
+    label: "Contact",
+    icon: `<rect x="3" y="5.5" width="18" height="13" rx="2" /><path d="m4 7 8 6 8-6" />`,
+  },
 ];
 ---
 
@@ -26,9 +46,21 @@ const links = [
           <a
             href={link.href}
             data-path={link.href}
-            class="relative z-10 whitespace-nowrap rounded-full px-2.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-[var(--color-secondary)] transition-colors hover:text-[var(--color-ink)]"
+            aria-label={link.label}
+            class="relative z-10 flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full px-3 py-3 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-[var(--color-secondary)] transition-colors hover:text-[var(--color-ink)]"
           >
-            {link.label}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-[22px] w-[22px] shrink-0 sm:hidden"
+              set:html={link.icon}
+            />
+            <span class="hidden sm:inline">{link.label}</span>
           </a>
         ))
       }
@@ -39,11 +71,11 @@ const links = [
     <button
       id="color-trigger"
       aria-label="Change theme color"
-      class="cursor-pointer grid h-8 w-8 sm:h-11 sm:w-11 shrink-0 place-items-center rounded-full border border-[var(--color-surface-dim)] bg-[var(--color-surface-container)]/90 shadow-lg shadow-black/5 backdrop-blur transition-colors"
+      class="cursor-pointer grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[var(--color-surface-dim)] bg-[var(--color-surface-container)]/90 shadow-lg shadow-black/5 backdrop-blur transition-colors"
     >
       <span
         id="color-swatch"
-        class="h-3.5 w-3.5 sm:h-5 sm:w-5 rounded-full"
+        class="h-[18px] w-[18px] sm:h-5 sm:w-5 rounded-full"
         style="background: var(--color-primary)"></span>
     </button>
 
@@ -77,7 +109,7 @@ const links = [
   <button
     id="theme-toggle"
     aria-label="Toggle dark mode"
-    class="cursor-pointer grid h-8 w-8 sm:h-11 sm:w-11 shrink-0 place-items-center rounded-full border border-[var(--color-surface-dim)] bg-[var(--color-surface-container)]/90 text-[var(--color-ink)] shadow-lg shadow-black/5 backdrop-blur transition-colors"
+    class="cursor-pointer grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[var(--color-surface-dim)] bg-[var(--color-surface-container)]/90 text-[var(--color-ink)] shadow-lg shadow-black/5 backdrop-blur transition-colors"
   >
     <svg
       id="icon-sun"
@@ -87,7 +119,7 @@ const links = [
       stroke="currentColor"
       stroke-width="2"
       stroke-linecap="round"
-      class="hidden h-4 w-4 sm:h-5 sm:w-5 dark:block"
+      class="hidden h-[18px] w-[18px] sm:h-5 sm:w-5 dark:block"
     >
       <circle cx="12" cy="12" r="4"></circle>
       <path
@@ -102,7 +134,7 @@ const links = [
       stroke="currentColor"
       stroke-width="2"
       stroke-linecap="round"
-      class="block h-4 w-4 sm:h-5 sm:w-5 dark:hidden"
+      class="block h-[18px] w-[18px] sm:h-5 sm:w-5 dark:hidden"
     >
       <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path>
     </svg>
@@ -239,13 +271,17 @@ const links = [
     if (slider) slider.value = String(h);
   }
 
+  function handleResize() {
+    updateNavIndicator();
+  }
+
   updateNavIndicator();
   syncThemeUI();
   document.addEventListener("astro:page-load", () => {
     updateNavIndicator();
     syncThemeUI();
   });
-  window.addEventListener("resize", updateNavIndicator);
+  window.addEventListener("resize", handleResize);
 
   document.addEventListener("input", (e) => {
     const target = e.target as HTMLElement;
