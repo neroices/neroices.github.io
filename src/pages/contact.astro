@@ -24,11 +24,11 @@ import { socials } from "../data/socials.js";
             href={s.href}
             target="_blank"
             rel="noopener noreferrer"
-            class="theme-transition group flex items-center justify-between rounded-[var(--radius-xl)] p-6 transition-transform duration-300 hover:scale-[1.01]"
+            class="card-lift theme-transition group flex items-center justify-between rounded-[var(--radius-xl)] p-6"
             style={`background:${s.accent}`}
           >
             <div class="flex items-center gap-4">
-              <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/70 text-[var(--color-chip-ink)] transition-colors group-hover:bg-white">
+              <span class="spring grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/70 text-[var(--color-chip-ink)] group-hover:bg-white group-hover:rotate-12">
                 <SocialIcon name={s.name} class="h-6 w-6" />
               </span>
               <div>
@@ -40,7 +40,7 @@ import { socials } from "../data/socials.js";
                 </p>
               </div>
             </div>
-            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/70 text-[var(--color-chip-ink)] transition-colors group-hover:bg-white">
+            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/70 text-[var(--color-chip-ink)] transition-all duration-300 group-hover:bg-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
               ↗
             </span>
           </a>

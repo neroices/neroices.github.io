@@ -20,7 +20,7 @@ const {
 ---
 
 <div
-  class="theme-transition group relative block rounded-[var(--radius-xl)] p-6 transition-transform duration-300 hover:scale-[1.01] md:p-8"
+  class="card-lift theme-transition group relative block rounded-[var(--radius-xl)] p-6 md:p-8"
   style={`background:${accent}`}
 >
   <a
@@ -42,14 +42,14 @@ const {
           href={link}
           target="_blank"
           rel="noopener noreferrer"
-          class="pointer-events-auto grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/70 text-[var(--color-chip-ink)] transition-all duration-200 hover:scale-110 hover:bg-white"
+          class="btn-lift pointer-events-auto grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/70 text-[var(--color-chip-ink)] hover:bg-white"
           aria-label={`Visit external link for ${title}`}
           title="Open external website"
         >
           ↗
         </a>
       ) : (
-        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/70 text-[var(--color-chip-ink)] transition-colors group-hover:bg-white">
+        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/70 text-[var(--color-chip-ink)] transition-colors duration-300 group-hover:bg-white">
           ↗
         </span>
       )
