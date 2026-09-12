@@ -205,9 +205,9 @@ const links = [
     return p.replace(/\/+$/, "") || "/";
   }
 
-  function currentIsWork(pathname: string) {
+  function currentIsProject(pathname: string) {
     const norm = normalize(pathname);
-    return norm === "/" || norm.startsWith("/work");
+    return norm === "/" || norm.startsWith("/project");
   }
 
   function updateNavIndicator() {
@@ -222,7 +222,7 @@ const links = [
     for (const a of anchors) {
       const linkPath = normalize(a.getAttribute("data-path") || "");
       const on =
-        linkPath === "/" ? currentIsWork(pathname) : linkPath === pathname;
+        linkPath === "/" ? currentIsProject(pathname) : linkPath === pathname;
       if (on) active = a;
       a.classList.toggle("text-[var(--color-on-primary-container)]", on);
       a.classList.toggle("text-[var(--color-secondary)]", !on);
