@@ -44,13 +44,13 @@ export const projects = [
   {
     slug: "moguraur",
     title: "moguraur",
-    description: "Self-maintained archlinux user repository",
+    description: "Self-maintained archlinux user repository (WIP)",
     tags: ["Arch", "AUR", "Package Repository"],
     accent: "var(--color-tertiary-container)",
     type: "personal",
     year: "2025",
     category: "Utilities",
-    body: "A self-maintained Arch User Repository (AUR) for custom PKGBUILDs and packages.",
+    body: "A self-maintained Arch User Repository (AUR) for custom PKGBUILDs and packages. Still work in progress.",
     link: "https://github.com/mogura1n/moguraur",
   },
   {
