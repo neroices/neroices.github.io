@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import SocialIcon from "../components/SocialIcon.astro";
 import { socials } from "../data/socials.js";
 ---
 
@@ -9,10 +10,11 @@ import { socials } from "../data/socials.js";
       class="mb-4 font-[var(--font-display)] text-5xl font-bold md:text-6xl"
       style="font-variation-settings: 'wght' 800;"
     >
-      Let's talk
+      Get in touch
     </h1>
     <p class="mb-10 max-w-lg text-lg text-[var(--color-secondary)]">
-      Easiest way to reach me is wherever you already are.
+      You can find me on a few platforms around the internet. Feel free to take
+      a look, follow along, or just say hi when appropriate :)
     </p>
 
     <div class="grid gap-4 sm:grid-cols-2">
@@ -25,11 +27,18 @@ import { socials } from "../data/socials.js";
             class="theme-transition group flex items-center justify-between rounded-[var(--radius-xl)] p-6 transition-transform duration-300 hover:scale-[1.01]"
             style={`background:${s.accent}`}
           >
-            <div>
-              <p class="font-[var(--font-display)] text-xl font-bold">
-                {s.name}
-              </p>
-              <p class="mt-1 text-sm text-[var(--color-ink)]/70">{s.handle}</p>
+            <div class="flex items-center gap-4">
+              <span class="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white/70 text-[var(--color-chip-ink)] transition-colors group-hover:bg-white">
+                <SocialIcon name={s.name} class="h-6 w-6" />
+              </span>
+              <div>
+                <p class="font-[var(--font-display)] text-xl font-bold">
+                  {s.name}
+                </p>
+                <p class="mt-1 text-sm text-[var(--color-ink)]/70">
+                  {s.handle}
+                </p>
+              </div>
             </div>
             <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-white/70 text-[var(--color-chip-ink)] transition-colors group-hover:bg-white">
               ↗
@@ -38,15 +47,5 @@ import { socials } from "../data/socials.js";
         ))
       }
     </div>
-
-    <p class="mt-10 text-[var(--color-secondary)]">
-      Or email —
-      <a
-        href="mailto:slcee@proton.me"
-        class="font-medium text-[var(--color-primary)] hover:underline"
-      >
-        slcee@proton.me
-      </a>
-    </p>
   </section>
 </Layout>
