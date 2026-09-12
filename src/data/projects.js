@@ -11,6 +11,7 @@
  * @property {string} body
  * @property {string} [org]
  * @property {string} [link]
+ * @property {string} [preview]
  */
 
 /** @type {Project[]} */
@@ -75,6 +76,7 @@ export const projects = [
     category: "Landing Pages",
     body: "This is a landing page for a project called oi. It is a simple yet unique landing page, built in with next.js.",
     link: "https://github.com/mogura1n/oi",
+    preview: "https://mogura1n.github.io/oi/",
   },
   {
     slug: "witaqua-org",

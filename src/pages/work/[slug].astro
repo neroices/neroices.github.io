@@ -18,9 +18,10 @@ interface Props {
   body: string;
   org?: string;
   link?: string;
+  preview?: string;
 }
 
-const { title, description, body, tags, accent, year, category, org, link } =
+const { title, description, body, tags, accent, year, category, org, link, preview } =
   Astro.props;
 ---
 
@@ -34,7 +35,7 @@ const { title, description, body, tags, accent, year, category, org, link } =
     </a>
 
     <div
-      class="theme-transition mt-6 rounded-[var(--radius-xl)] p-10 md:p-16"
+      class="theme-transition mt-6 rounded-[var(--radius-xl)] p-6 sm:p-10 md:p-16"
       style={`background:${accent}`}
     >
       {
@@ -51,18 +52,37 @@ const { title, description, body, tags, accent, year, category, org, link } =
         >
           {title}
         </h1>
-        {
-          link && (
-            <a
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 rounded-full bg-white/70 px-5 py-2.5 text-sm font-medium text-[var(--color-chip-ink)] transition-all hover:bg-white hover:scale-105"
-            >
-              Visit Website ↗
-            </a>
-          )
-        }
+        <div class="flex flex-wrap gap-2">
+          {
+            preview && (
+              <a
+                href={preview}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-2 rounded-full bg-white/70 px-5 py-2.5 text-sm font-medium text-[var(--color-chip-ink)] transition-all hover:bg-white hover:scale-105"
+              >
+                Visit Website ↗
+              </a>
+            )
+          }
+          {
+            link && (
+              <a
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class:list={[
+                  "inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all hover:scale-105",
+                  preview
+                    ? "bg-black/10 text-[var(--color-ink)] hover:bg-black/15 dark:bg-white/20 dark:hover:bg-white/30"
+                    : "bg-white/70 text-[var(--color-chip-ink)] hover:bg-white",
+                ]}
+              >
+                {link.includes("github.com") ? "GitHub ↗" : "Visit Website ↗"}
+              </a>
+            )
+          }
+        </div>
       </div>
       <p class="mt-4 max-w-lg text-lg">{description}</p>
       <ul class="mt-6 flex flex-wrap gap-2">
@@ -91,9 +111,28 @@ const { title, description, body, tags, accent, year, category, org, link } =
           )
         }
         {
+          preview && (
+            <div>
+              <dt class="text-[var(--color-secondary)]">Live Site</dt>
+              <dd class="font-medium">
+                <a
+                  href={preview}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-[var(--color-primary)] hover:underline"
+                >
+                  {preview.replace(/^https?:\/\//, "")} ↗
+                </a>
+              </dd>
+            </div>
+          )
+        }
+        {
           link && (
             <div>
-              <dt class="text-[var(--color-secondary)]">Link</dt>
+              <dt class="text-[var(--color-secondary)]">
+                {link.includes("github.com") ? "Repository" : "Link"}
+              </dt>
               <dd class="font-medium">
                 <a
                   href={link}
@@ -110,5 +149,45 @@ const { title, description, body, tags, accent, year, category, org, link } =
       </dl>
       <p class="max-w-2xl text-lg text-[var(--color-ink)]/85">{body}</p>
     </div>
+
+    {
+      preview && (
+        <div class="mt-16">
+          <div class="mb-4 flex items-center justify-between">
+            <h2 class="font-[var(--font-display)] text-2xl font-bold">
+              Live Preview
+            </h2>
+            <a
+              href={preview}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm font-medium text-[var(--color-primary)] hover:underline"
+            >
+              Open in new tab ↗
+            </a>
+          </div>
+
+          <div class="overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-surface-dim)] bg-[var(--color-surface-container)] shadow-lg shadow-black/5">
+            <div class="flex items-center gap-2 border-b border-[var(--color-surface-dim)] px-4 py-3 bg-[var(--color-surface)]/70">
+              <div class="flex items-center gap-1.5">
+                <div class="h-3 w-3 rounded-full bg-red-400/80" />
+                <div class="h-3 w-3 rounded-full bg-yellow-400/80" />
+                <div class="h-3 w-3 rounded-full bg-green-400/80" />
+              </div>
+              <div class="mx-auto flex w-full max-w-sm items-center justify-center truncate rounded-full bg-[var(--color-surface-container)] px-3 py-1 text-xs text-[var(--color-secondary)]">
+                {preview}
+              </div>
+            </div>
+
+            <iframe
+              src={preview}
+              title={`${title} live preview`}
+              class="h-[520px] w-full border-0 bg-white md:h-[620px]"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      )
+    }
   </section>
 </Layout>
