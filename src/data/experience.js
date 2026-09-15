@@ -1,6 +1,6 @@
 export const experience = [
   {
-    role: "Freelance Web Developer",
+    role: "Freelance Front-End Web Developer",
     org: "Self-Employed",
     period: "2024 — Present",
     description:
