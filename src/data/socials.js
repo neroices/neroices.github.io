@@ -13,7 +13,7 @@ export const socials = [
   },
   {
     name: "Reddit",
-    handle: "r/neroices",
+    handle: "u/neroices",
     href: "https://reddit.com/u/neroices",
     accent: "var(--color-quinary-container)",
   },
