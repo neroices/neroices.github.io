@@ -1,37 +1,87 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { skillGroups } from "../data/skills.js";
+import TechIcon from "../components/SkillIcon.astro";
+import { skills } from "../data/skills.js";
 ---
 
 <Layout title="Skills — neroices">
   <section class="pb-24 pt-8 md:pt-16">
-    <h1
-      class="mb-12 font-[var(--font-display)] text-5xl font-bold md:text-6xl"
-      style="font-variation-settings: 'wght' 800;"
-    >
-      Skills
-    </h1>
+    <!-- Centered Header with underline -->
+    <div class="mx-auto max-w-2xl text-center">
+      <div class="inline-block relative">
+        <h1
+          class="font-[var(--font-display)] text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-[var(--color-ink)]"
+          style="font-variation-settings: 'wght' 800;"
+        >
+          Skills
+        </h1>
+        <span
+          class="absolute -bottom-2 left-1/2 -translate-x-1/2 h-1 w-12 rounded-full bg-[var(--color-primary)]"
+        ></span>
+      </div>
 
-    <div class="grid gap-8 md:grid-cols-2">
+      <p
+        class="mt-6 text-base sm:text-lg text-[var(--color-secondary)] leading-relaxed"
+      >
+        I enjoy diving into and learning new things. Here's a list of
+        technologies I've worked with.
+      </p>
+    </div>
+
+    <!-- Skills Grid: 4 columns like reference, with brand colors, icons and animations -->
+    <div
+      class="mt-12 sm:mt-16 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5"
+    >
       {
-        skillGroups.map((group) => (
-          <div class="rounded-[var(--radius-xl)] bg-[var(--color-surface-container)] p-6 md:p-8">
-            <h2 class="mb-4 text-lg font-medium text-[var(--color-primary)]">
-              {group.category}
-            </h2>
-            <ul class="space-y-4">
-              {group.items.map((item) => (
-                <li>
-                  <p class="font-[var(--font-display)] text-lg font-bold">
-                    {item.name}
-                  </p>
-                  <p class="text-sm text-[var(--color-ink)]/70">{item.note}</p>
-                </li>
-              ))}
-            </ul>
+        skills.map((skill, index) => (
+          <div
+            class="skill-card card-lift theme-transition group relative flex flex-col items-center justify-center rounded-[var(--radius-xl)] border border-[var(--color-surface-dim)] bg-[var(--color-surface-container)]/75 p-5 sm:p-6 text-center shadow-xs backdrop-blur-xs transition-all duration-300"
+            style={`--brand-color: ${skill.color}; animation-delay: ${index * 40}ms;`}
+          >
+            <!-- Background subtle hover highlight glow in brand color -->
+            <div
+              class="pointer-events-none absolute inset-0 rounded-[var(--radius-xl)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              style={`background: radial-gradient(circle at 50% 35%, color-mix(in srgb, ${skill.color} 15%, transparent), transparent 70%);`}
+            />
+
+            <!-- Tech Icon with spring hover animation & authentic brand color -->
+            <div
+              class="spring mb-3.5 grid h-12 w-12 sm:h-14 sm:w-14 place-items-center rounded-2xl bg-[var(--color-surface)] border border-[var(--color-surface-dim)] shadow-xs group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300"
+              style={`color: ${skill.color};`}
+            >
+              <TechIcon name={skill.icon} color={skill.color} class="h-6 w-6 sm:h-7 sm:w-7" />
+            </div>
+
+            <!-- Skill Name -->
+            <h3 class="font-[var(--font-display)] text-sm sm:text-base font-medium text-[var(--color-ink)] transition-colors group-hover:text-[var(--brand-color)]">
+              {skill.name}
+            </h3>
           </div>
         ))
       }
     </div>
   </section>
 </Layout>
+
+<style>
+  @keyframes skillFadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .skill-card {
+    animation: skillFadeInUp 0.45s cubic-bezier(0.2, 0, 0, 1) both;
+    will-change: transform, opacity;
+  }
+
+  .skill-card:hover {
+    border-color: var(--brand-color);
+    box-shadow: 0 10px 25px -5px color-mix(in srgb, var(--brand-color) 20%, transparent);
+  }
+</style>
