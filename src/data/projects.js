@@ -119,7 +119,7 @@ export const projects = [
     slug: "conqueros-org",
     title: "conquerOS",
     description: "Simple yet powerful CAF based Custom ROM",
-    tags: ["Android", "AOSP", "CAF", "Custom ROM", "Community"],
+    tags: ["Android", "AOSP", "CAF", "Custom ROM"],
     accent: "var(--color-tertiary-container)",
     type: "organization",
     year: "2021 - 2023",
