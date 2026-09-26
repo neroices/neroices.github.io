@@ -21,13 +21,6 @@ export const experience = [
       "Build and maintain the official project homepage and documentation wiki, alongside managing official device support.",
   },
   {
-    role: "Backend Developer Intern",
-    org: "GAMELAB",
-    period: "2024",
-    description:
-      "Developed backend services and RESTful APIs, implemented database schemas, and collaborated closely with the frontend team on seamless feature integration.",
-  },
-  {
     role: "Web Developer",
     org: "conquerOS",
     period: "2021 — 2023",
