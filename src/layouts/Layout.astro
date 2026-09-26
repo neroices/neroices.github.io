@@ -55,6 +55,7 @@ const { title = "neroices" } = Astro.props;
           var t = (h + 60) % 360;
           var q = (h + 140) % 360;
           var k = (h + 220) % 360;
+          var s = (h + 300) % 360;
           if (isDark) {
             root.setProperty("--color-primary", hslToHex(h, 70, 80));
             root.setProperty("--color-primary-container", hslToHex(h, 35, 30));
@@ -76,6 +77,8 @@ const { title = "neroices" } = Astro.props;
             );
             root.setProperty("--color-quinary", hslToHex(k, 55, 80));
             root.setProperty("--color-quinary-container", hslToHex(k, 35, 28));
+            root.setProperty("--color-senary", hslToHex(s, 55, 80));
+            root.setProperty("--color-senary-container", hslToHex(s, 35, 28));
           } else {
             root.setProperty("--color-primary", hslToHex(h, 45, 40));
             root.setProperty("--color-primary-container", hslToHex(h, 65, 88));
@@ -97,6 +100,8 @@ const { title = "neroices" } = Astro.props;
             );
             root.setProperty("--color-quinary", hslToHex(k, 45, 40));
             root.setProperty("--color-quinary-container", hslToHex(k, 60, 88));
+            root.setProperty("--color-senary", hslToHex(s, 45, 40));
+            root.setProperty("--color-senary-container", hslToHex(s, 60, 88));
           }
         }
       }

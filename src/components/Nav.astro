@@ -162,6 +162,7 @@ const links = [
     const t = (hue + 60) % 360;
     const q = (hue + 140) % 360;
     const k = (hue + 220) % 360;
+    const s = (hue + 300) % 360;
 
     if (isDark) {
       root.setProperty("--color-primary", hslToHex(hue, 70, 80));
@@ -175,6 +176,8 @@ const links = [
       root.setProperty("--color-quaternary-container", hslToHex(q, 30, 28));
       root.setProperty("--color-quinary", hslToHex(k, 55, 80));
       root.setProperty("--color-quinary-container", hslToHex(k, 35, 28));
+      root.setProperty("--color-senary", hslToHex(s, 55, 80));
+      root.setProperty("--color-senary-container", hslToHex(s, 35, 28));
     } else {
       root.setProperty("--color-primary", hslToHex(hue, 45, 40));
       root.setProperty("--color-primary-container", hslToHex(hue, 65, 88));
@@ -187,6 +190,8 @@ const links = [
       root.setProperty("--color-quaternary-container", hslToHex(q, 55, 88));
       root.setProperty("--color-quinary", hslToHex(k, 45, 40));
       root.setProperty("--color-quinary-container", hslToHex(k, 60, 88));
+      root.setProperty("--color-senary", hslToHex(s, 45, 40));
+      root.setProperty("--color-senary-container", hslToHex(s, 60, 88));
     }
 
     const badge = document.getElementById("hue-value");
