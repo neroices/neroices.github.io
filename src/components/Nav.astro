@@ -92,7 +92,7 @@ const links = [
           id="hue-value"
           class="rounded-md bg-[var(--color-primary-container)] px-2 py-0.5 text-xs font-medium text-[var(--color-on-primary-container)]"
         >
-          250
+          189
         </span>
       </div>
       <input
@@ -101,7 +101,7 @@ const links = [
         type="range"
         min="0"
         max="360"
-        value="250"
+        value="189"
       />
     </div>
   </div>
@@ -265,7 +265,7 @@ const links = [
 
   function syncThemeUI() {
     const hue = localStorage.getItem("theme-hue");
-    const h = hue ? parseInt(hue, 10) : 250;
+    const h = hue ? parseInt(hue, 10) : 189;
     const badge = document.getElementById("hue-value");
     if (badge) badge.textContent = String(h);
     const swatch = document.getElementById("color-swatch");
@@ -305,7 +305,7 @@ const links = [
         document.documentElement.classList.contains("dark") ? "dark" : "light",
       );
       const hue = localStorage.getItem("theme-hue");
-      applyThemeColor(hue ? parseInt(hue, 10) : 250, false);
+      applyThemeColor(hue ? parseInt(hue, 10) : 189, false);
       return;
     }
 

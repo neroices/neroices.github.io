@@ -29,7 +29,7 @@ const { title = "neroices" } = Astro.props;
           document.documentElement.classList.remove("dark");
         }
 
-        var hue = localStorage.getItem("theme-hue");
+        var hue = localStorage.getItem("theme-hue") || "189";
         if (hue) {
           var h = parseInt(hue, 10);
           function hslToHex(h, s, l) {
@@ -119,13 +119,17 @@ const { title = "neroices" } = Astro.props;
   </head>
   <body class="flex min-h-screen flex-col">
     <Nav />
-    <main class="mx-auto flex w-full max-w-5xl flex-1 flex-col px-6 sm:px-8 pt-20 sm:pt-24 md:px-12">
+    <main
+      class="mx-auto flex w-full max-w-5xl flex-1 flex-col px-6 sm:px-8 pt-20 sm:pt-24 md:px-12"
+    >
       <slot />
     </main>
     <footer
       class="mt-auto border-t border-[var(--color-surface-dim)] text-sm text-[var(--color-secondary)]"
     >
-      <div class="mx-auto flex max-w-5xl justify-between px-6 sm:px-8 py-8 md:px-12">
+      <div
+        class="mx-auto flex max-w-5xl justify-between px-6 sm:px-8 py-8 md:px-12"
+      >
         <span>© 2026 neroices</span>
         <a
           href="mailto:slcee@proton.me"
