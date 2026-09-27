@@ -169,63 +169,65 @@ const [readmeData, metadata] = await Promise.all([
       </dl>
       {
         readmeData ? (
-          <div class="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-surface-dim)] bg-[var(--color-surface-container)] shadow-sm">
-            <div class="flex items-center justify-between gap-2 border-b border-[var(--color-surface-dim)] px-4 py-2.5 bg-[var(--color-surface)]/70">
-              <div class="flex items-center gap-2 shrink-0">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="text-[var(--color-secondary)]"
-                >
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                  <polyline points="14 2 14 8 20 8" />
-                  <line x1="16" y1="13" x2="8" y2="13" />
-                  <line x1="16" y1="17" x2="8" y2="17" />
-                  <polyline points="10 9 9 9 8 9" />
-                </svg>
-                <span class="font-mono text-xs font-medium text-[var(--color-secondary)]">
-                  README.md
-                </span>
-              </div>
-              <div class="flex items-center gap-3">
-                {readmeData.rawUrl && (
-                  <a
-                    href={readmeData.rawUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="shrink-0 text-xs text-[var(--color-secondary)] hover:text-[var(--color-primary)] transition-colors flex items-center gap-1"
-                    title="View raw README"
+          <div class="relative min-w-0">
+            <div class="relative flex flex-col max-h-[420px] md:max-h-none md:absolute md:inset-0 overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-surface-dim)] bg-[var(--color-surface-container)] shadow-sm">
+              <div class="flex items-center justify-between gap-2 border-b border-[var(--color-surface-dim)] px-4 py-2.5 bg-[var(--color-surface)]/70 shrink-0">
+                <div class="flex items-center gap-2 shrink-0">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-[var(--color-secondary)]"
                   >
-                    <span>Raw</span>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="11"
-                      height="11"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="16" y1="13" x2="8" y2="13" />
+                    <line x1="16" y1="17" x2="8" y2="17" />
+                    <polyline points="10 9 9 9 8 9" />
+                  </svg>
+                  <span class="font-mono text-xs font-medium text-[var(--color-secondary)]">
+                    README.md
+                  </span>
+                </div>
+                <div class="flex items-center gap-3">
+                  {readmeData.rawUrl && (
+                    <a
+                      href={readmeData.rawUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="shrink-0 text-xs text-[var(--color-secondary)] hover:text-[var(--color-primary)] transition-colors flex items-center gap-1"
+                      title="View raw README"
                     >
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                      <polyline points="15 3 21 3 21 9" />
-                      <line x1="10" y1="14" x2="21" y2="3" />
-                    </svg>
-                  </a>
-                )}
+                      <span>Raw</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="11"
+                        height="11"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                        <polyline points="15 3 21 3 21 9" />
+                        <line x1="10" y1="14" x2="21" y2="3" />
+                      </svg>
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
 
-            <div class="readme-scroll max-h-[420px] md:max-h-[480px] overflow-y-auto overscroll-contain p-5 sm:p-6">
-              <div class="readme-prose" set:html={readmeData.html} />
+              <div class="readme-scroll flex-1 min-h-0 overflow-y-auto overscroll-contain p-5 sm:p-6">
+                <div class="readme-prose" set:html={readmeData.html} />
+              </div>
             </div>
           </div>
         ) : body ? (
