@@ -192,3 +192,185 @@ input[type="range"].hue-slider::-moz-range-thumb {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* Custom scrollbar for README container */
+.readme-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-surface-dim) transparent;
+}
+
+.readme-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.readme-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.readme-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--color-surface-dim);
+  border-radius: 999px;
+}
+
+.readme-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-outline);
+}
+
+/* Styled markdown prose for project README */
+.readme-prose {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-ink);
+}
+
+.readme-prose > *:first-child {
+  margin-top: 0 !important;
+}
+
+.readme-prose > *:last-child {
+  margin-bottom: 0 !important;
+}
+
+.readme-prose h2 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--color-surface-dim);
+  color: var(--color-ink);
+}
+
+.readme-prose h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-ink);
+}
+
+.readme-prose h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-ink);
+}
+
+.readme-prose p {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  opacity: 0.9;
+}
+
+.readme-prose a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.readme-prose a:hover {
+  opacity: 0.8;
+}
+
+.readme-prose ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.readme-prose ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.readme-prose li {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.readme-prose li > p {
+  margin: 0.2rem 0;
+}
+
+.readme-prose blockquote {
+  border-left: 3px solid var(--color-primary);
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  background: var(--color-surface);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-style: italic;
+  color: var(--color-secondary);
+}
+
+.readme-prose pre {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-dim);
+  overflow-x: auto;
+  font-family: monospace;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.dark .readme-prose pre {
+  background: #110f16;
+}
+
+.readme-prose code {
+  font-family: monospace;
+  font-size: 0.85em;
+  background: var(--color-surface-dim);
+  color: var(--color-primary);
+  padding: 0.15rem 0.35rem;
+  border-radius: var(--radius-xs);
+}
+
+.readme-prose pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+
+.readme-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.875rem;
+}
+
+.readme-prose th {
+  border-bottom: 2px solid var(--color-surface-dim);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  background: var(--color-surface);
+}
+
+.readme-prose td {
+  border-bottom: 1px solid var(--color-surface-dim);
+  padding: 0.5rem 0.75rem;
+}
+
+.readme-prose hr {
+  border: 0;
+  border-top: 1px solid var(--color-surface-dim);
+  margin: 1.5rem 0;
+}
+
+.readme-prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  margin: 0.75rem 0;
+}

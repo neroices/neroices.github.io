@@ -8,10 +8,12 @@
  * @property {"personal" | "organization"} type
  * @property {string} year
  * @property {string} category
- * @property {string} body
+ * @property {string} [body]
  * @property {string} [org]
  * @property {string} [link]
  * @property {string} [preview]
+ * @property {boolean | string} [readme]
+ * @property {boolean | string} [fetchReadme]
  */
 
 /** @type {Project[]} */
@@ -79,17 +81,17 @@ export const projects = [
     preview: "https://mogura1n.github.io/oi/",
   },
   {
-    slug: "hlcyn-stats",
-    title: "hlcyn-stats",
+    slug: "halcyonstats",
+    title: "halcyonstats",
     description: "Download statistics and device leaderboard for Halcyon",
     tags: ["Astro", "TailwindCSS", "TypeScript"],
     accent: "var(--color-senary-container)",
     type: "personal",
     year: "2026",
     category: "Web Applications",
-    body: "A download statistics tracker and device leaderboard for the Halcyon project, inspired by the LineageOS stats page. Built with Astro and Tailwind CSS.",
-    link: "https://github.com/neroices/hlcyn",
-    preview: "https://neroices.github.io/hlcyn/",
+    link: "https://github.com/neroices/hlcynstats",
+    preview: "https://halcyonstats.pages.dev",
+    readme: true,
   },
   {
     slug: "witaqua-org",
