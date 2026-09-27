@@ -34,6 +34,7 @@
 
   --font-display: "Roboto Flex", sans-serif;
   --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
 
   /* Material 3 shape scale */
   --radius-xs: 4px;
