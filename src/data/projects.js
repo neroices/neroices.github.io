@@ -44,8 +44,8 @@ export const projects = [
     year: "2025",
     category: "Utilities",
     license: "Unlicense",
-    body: "A homebrew repository for packages that are not available on the official homebrew repository.",
     link: "https://github.com/mogura1n/firebrew",
+    readme: true
   },
   {
     slug: "moguraur",
