@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import { projects } from "../../data/projects.js";
 import { getProjectReadme } from "../../utils/readme.js";
+import { getProjectMetadata } from "../../utils/github.js";
 
 export function getStaticPaths() {
   return projects.map((p) => ({ params: { slug: p.slug }, props: p }));
@@ -22,7 +23,10 @@ const {
   preview,
 } = Astro.props;
 
-const readmeData = await getProjectReadme(Astro.props);
+const [readmeData, metadata] = await Promise.all([
+  getProjectReadme(Astro.props),
+  getProjectMetadata(Astro.props),
+]);
 ---
 
 <Layout title={`${title} — neroices`}>
@@ -107,6 +111,22 @@ const readmeData = await getProjectReadme(Astro.props);
             <div>
               <dt class="text-[var(--color-secondary)]">Category</dt>
               <dd class="font-medium">{category}</dd>
+            </div>
+          )
+        }
+        {
+          metadata.license && (
+            <div>
+              <dt class="text-[var(--color-secondary)]">License</dt>
+              <dd class="font-medium">{metadata.license}</dd>
+            </div>
+          )
+        }
+        {
+          metadata.lastUpdated && (
+            <div>
+              <dt class="text-[var(--color-secondary)]">Last Updated</dt>
+              <dd class="font-medium">{metadata.lastUpdated}</dd>
             </div>
           )
         }

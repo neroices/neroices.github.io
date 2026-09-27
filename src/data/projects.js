@@ -12,6 +12,8 @@
  * @property {string} [org]
  * @property {string} [link]
  * @property {string} [preview]
+ * @property {string} [license]
+ * @property {string} [lastUpdated]
  * @property {boolean | string} [readme]
  * @property {boolean | string} [fetchReadme]
  */
@@ -27,6 +29,7 @@ export const projects = [
     type: "personal",
     year: "2025",
     category: "Ricing & Themes",
+    license: "Unlicense",
     body: "Yet another waybar theme.",
     link: "https://github.com/mogura1n/waybar",
   },
@@ -40,6 +43,7 @@ export const projects = [
     type: "personal",
     year: "2025",
     category: "Utilities",
+    license: "Unlicense",
     body: "A homebrew repository for packages that are not available on the official homebrew repository.",
     link: "https://github.com/mogura1n/firebrew",
   },
@@ -52,6 +56,7 @@ export const projects = [
     type: "personal",
     year: "2025",
     category: "Utilities",
+    license: "Unlicense",
     body: "A self-maintained Arch User Repository (AUR) for custom PKGBUILDs and packages. Still work in progress.",
     link: "https://github.com/mogura1n/moguraur",
   },
@@ -64,6 +69,7 @@ export const projects = [
     type: "personal",
     year: "2025",
     category: "Ricing & Themes",
+    license: "Unlicense",
     body: "Yet another wofi theme.",
     link: "https://github.com/mogura1n/wofi",
   },
@@ -76,6 +82,7 @@ export const projects = [
     type: "personal",
     year: "2025",
     category: "Landing Pages",
+    license: "MIT",
     body: "It is a simple yet unique landing page, built in with next.js.",
     link: "https://github.com/mogura1n/oi",
     preview: "https://mogura1n.github.io/oi/",
@@ -89,6 +96,7 @@ export const projects = [
     type: "personal",
     year: "2026",
     category: "Web Applications",
+    license: "MIT",
     link: "https://github.com/neroices/hlcynstats",
     preview: "https://halcyonstats.pages.dev",
     readme: true,
