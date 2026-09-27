@@ -124,19 +124,19 @@ const { title = "neroices" } = Astro.props;
     >
       <slot />
     </main>
-    <footer
-      class="mt-auto border-t border-[var(--color-surface-dim)] text-sm font-mono text-[var(--color-secondary)]"
-    >
-      <div
-        class="mx-auto flex max-w-5xl justify-between px-6 sm:px-8 py-8 md:px-12"
-      >
-        <span>© 2026 neroices</span>
-        <a
-          href="mailto:slcee@proton.me"
-          class="hover:text-[var(--color-primary)]"
+    <footer class="mt-auto text-sm font-mono text-[var(--color-secondary)]">
+      <div class="mx-auto max-w-5xl px-6 sm:px-8 md:px-12">
+        <div
+          class="flex justify-between border-t-2 border-[var(--color-surface-dim)] py-8"
         >
-          slcee@proton.me
-        </a>
+          <span>© 2026 neroices</span>
+          <a
+            href="mailto:slcee@proton.me"
+            class="hover:text-[var(--color-primary)]"
+          >
+            slcee@proton.me
+          </a>
+        </div>
       </div>
     </footer>
   </body>
