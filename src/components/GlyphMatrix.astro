@@ -1,0 +1,892 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<div
+  id="glyph-matrix-widget"
+  class={`relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--color-surface-dim)] bg-[var(--color-surface-container)] p-5 backdrop-blur-md shadow-lg select-none transition-all duration-300 hover:border-[var(--color-primary)]/50 ${className}`}
+>
+  <!-- Header -->
+  <div
+    class="flex items-center justify-between border-b border-[var(--color-surface-dim)] pb-2.5 mb-3 font-mono text-[10px] tracking-wider text-[var(--color-secondary)]"
+  >
+    <div class="flex items-center gap-1.5"></div>
+    <span
+      id="glyph-face-tag"
+      class="rounded bg-[var(--color-surface)] px-1.5 py-0.5 border border-[var(--color-surface-dim)] text-[9px] font-semibold text-[var(--color-primary)]"
+    >
+      SMILE
+    </span>
+  </div>
+
+  <!-- The Glyph Display Container -->
+  <div class="relative mx-auto flex flex-col items-center justify-center">
+    <!-- Matrix Frame — background seamlessly matches widget -->
+    <div
+      id="glyph-screen"
+      class="glyph-screen-bg group relative flex items-center justify-center cursor-pointer rounded-2xl border border-[var(--color-surface-dim)] p-4 transition-transform duration-300 active:scale-95"
+      title="Tap to change glyph!"
+    >
+      <!-- Circuit trace corner markings -->
+      <div
+        class="pointer-events-none absolute top-1.5 left-1.5 h-2.5 w-2.5 border-t border-l border-[var(--color-outline)]/20"
+      >
+      </div>
+      <div
+        class="pointer-events-none absolute top-1.5 right-1.5 h-2.5 w-2.5 border-t border-r border-[var(--color-outline)]/20"
+      >
+      </div>
+      <div
+        class="pointer-events-none absolute bottom-1.5 left-1.5 h-2.5 w-2.5 border-b border-l border-[var(--color-outline)]/20"
+      >
+      </div>
+      <div
+        class="pointer-events-none absolute bottom-1.5 right-1.5 h-2.5 w-2.5 border-b border-r border-[var(--color-outline)]/20"
+      >
+      </div>
+
+      <!-- 15x15 LED Dot Matrix — true center at column 7 -->
+      <div id="glyph-grid" class="glyph-grid-15">
+        <!-- 225 LEDs generated dynamically by script -->
+      </div>
+    </div>
+
+    <!-- Caption -->
+    <p
+      id="glyph-reaction"
+      class="mt-3 font-mono text-xs font-semibold text-[var(--color-primary)] text-center transition-all duration-200"
+    >
+      :) hi
+    </p>
+
+    <!-- Tap hint -->
+    <p
+      class="mt-1 font-mono text-[10px] text-[var(--color-secondary)]/70 text-center"
+    >
+      tap to change
+    </p>
+  </div>
+</div>
+
+<style>
+  /* Grid screen background blends seamlessly with parent widget */
+  .glyph-screen-bg {
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  /* 15x15 grid with fixed dot sizes — true center at column 7 */
+  .glyph-grid-15 {
+    display: grid;
+    grid-template-columns: repeat(15, 11px);
+    grid-template-rows: repeat(15, 11px);
+    gap: 3px;
+    width: calc(15 * 11px + 14 * 3px); /* 207px */
+    height: calc(15 * 11px + 14 * 3px);
+  }
+
+  /* Each LED dot — fixed 11px square */
+  :global(.glyph-dot) {
+    width: 11px;
+    height: 11px;
+    border-radius: 2.5px;
+    background-color: var(--color-surface-dim);
+    transition: none;
+  }
+
+  /* Active LED — uses primary accent color with glow */
+  :global(.glyph-dot.active) {
+    background-color: var(--color-primary);
+    box-shadow:
+      0 0 4px var(--color-primary),
+      0 0 8px var(--color-primary);
+  }
+
+  /* Red accent LED */
+  :global(.glyph-dot.active-red) {
+    background-color: #ef4444;
+    box-shadow:
+      0 0 4px #ef4444,
+      0 0 8px #ef4444;
+  }
+
+  /* Floating particle */
+  :global(.glyph-particle) {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 1.5rem;
+    animation: glyphFloatUp 0.9s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+  }
+
+  @keyframes glyphFloatUp {
+    0% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(0.6);
+    }
+    50% {
+      opacity: 1;
+      transform: translate(-50%, -60px) scale(1.3);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -110px) scale(1);
+    }
+  }
+</style>
+
+<script>
+  // 15x15 pixel art glyphs — odd dimension gives an exact center column/row (index 7).
+  // Every glyph is exactly 15 rows x 15 chars ("1" = lit, "0" = off), centered
+  // on both axes. Symmetric glyphs are mirror-symmetric around column 7.
+  const GLYPH_FACES = [
+    {
+      id: "SMILE",
+      text: ":) hello there",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+        "000011000110000",
+        "000011000110000",
+        "000011000110000",
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+        "001000000000100",
+        "000100000001000",
+        "000011111110000",
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "WINK",
+      text: ";) cheers",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+        "000000000111000",
+        "000010000111000",
+        "000101000111000",
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+        "001000000000100",
+        "000100000001000",
+        "000011111110000",
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "WOW",
+      text: ":O",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "011111000111110",
+        "010001000100010",
+        "010101000101010",
+        "010001000100010",
+        "011111000111110",
+        "000000000000000",
+        "000000111000000",
+        "000001000100000",
+        "000001000100000",
+        "000001000100000",
+        "000000111000000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "LOVE",
+      text: "<3",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+        "001010000010100",
+        "011111000111110",
+        "001110000011100",
+        "000100000001000",
+        "000000000000000",
+        "000000000000000",
+        "001000000000100",
+        "000100000001000",
+        "000011111110000",
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "SAD",
+      text: ":( runtime error",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "000001101100000",
+        "000110000011000",
+        "000000000000000",
+        "000011000110000",
+        "000011000110000",
+        "000011000110000",
+        "000000000000000",
+        "000000000000000",
+        "000001111100000",
+        "000010000010000",
+        "000100000001000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "ANGRY",
+      text: ">:( segfault",
+      isRed: true,
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+        "000110000011000",
+        "000001101100000",
+        "000000000000000",
+        "000011000110000",
+        "000011000110000",
+        "000000000000000",
+        "000000000000000",
+        "000001111100000",
+        "000010000010000",
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "LAUGH",
+      text: ":D",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "001000000000100",
+        "000100000001000",
+        "000010000010000",
+        "000100000001000",
+        "001000000000100",
+        "000000000000000",
+        "001111111111100",
+        "001111111111100",
+        "000111111111000",
+        "000011111110000",
+        "000000111000000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "SLEEPY",
+      text: "-_- zzz",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "000000000111100",
+        "000000000001000",
+        "000000000010000",
+        "000000000111100",
+        "000000000000000",
+        "001110000011100",
+        "000000000000000",
+        "000000000000000",
+        "000000111000000",
+        "000000101000000",
+        "000000111000000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "TONGUE",
+      text: ":P",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "000011000110000",
+        "000011000110000",
+        "000011000110000",
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+        "001000000000100",
+        "000100000001000",
+        "000011111110000",
+        "000000001110000",
+        "000000000100000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "CRY",
+      text: "T_T",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+        "000111000111000",
+        "000010000010000",
+        "000010000010000",
+        "000010000010000",
+        "000010000010000",
+        "000000000000000",
+        "000000000000000",
+        "000001111100000",
+        "000010000010000",
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "THINK",
+      text: "(?) git rebase",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+        "000000000111000",
+        "000111000000000",
+        "000000000000000",
+        "000011000110000",
+        "000011000110000",
+        "000011000110000",
+        "000000000000000",
+        "000000000000000",
+        "000000001110000",
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "DEAD",
+      text: "ded",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+        "000101000101000",
+        "000010000010000",
+        "000101000101000",
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+        "000011111110000",
+        "000000001110000",
+        "000000000100000",
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "HEART",
+      text: "♥ thank you",
+      isRed: true,
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "000111000111000",
+        "001111101111100",
+        "011111111111110",
+        "011111111111110",
+        "011111111111110",
+        "001111111111100",
+        "000111111111000",
+        "000011111110000",
+        "000001111100000",
+        "000000111000000",
+        "000000010000000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "OCTOPUS",
+      text: "octopus?",
+      grid: [
+        "000000000000000",
+        "001100000001100",
+        "001110000011100",
+        "001111111111100",
+        "011111111111110",
+        "011111111111110",
+        "111100111001111",
+        "111100111001111",
+        "111111111111111",
+        "011111111111110",
+        "011111111111110",
+        "001111111111100",
+        "001101101101100",
+        "001001000100100",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "DOLLAR",
+      text: "money broo",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "000000010000000",
+        "000000010000000",
+        "000011111110000",
+        "000110010000000",
+        "000110010000000",
+        "000011111110000",
+        "000000010011000",
+        "000000010011000",
+        "000011111110000",
+        "000000010000000",
+        "000000010000000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "STAR",
+      text: "★ star my repo plz",
+      grid: [
+        "000000000000000",
+        "000000010000000",
+        "000000111000000",
+        "000000111000000",
+        "000001111100000",
+        "011111111111110",
+        "001111111111100",
+        "000111111111000",
+        "000011111110000",
+        "000011111110000",
+        "000111101111000",
+        "000111000111000",
+        "001110000011100",
+        "001100000001100",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "LINUX",
+      text: "tux",
+      grid: [
+        "000000000000000",
+        "000000111000000",
+        "000001111100000",
+        "000001010100000",
+        "000011111110000",
+        "000111111111000",
+        "001111000111100",
+        "011010000010110",
+        "011010000010110",
+        "011010000010110",
+        "001010000010100",
+        "000111000111000",
+        "000111111111000",
+        "001111000111100",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "COFFEE",
+      text: "coffee break",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "000010001000000",
+        "000001000100000",
+        "000010001000000",
+        "001111111110000",
+        "001111111111100",
+        "001111111110100",
+        "001111111110100",
+        "001111111111100",
+        "000111111100000",
+        "000011111000000",
+        "001111111111100",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "CODE",
+      text: "</>",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+        "000000000100000",
+        "000000000100000",
+        "000110001011000",
+        "001100001001100",
+        "011000010000110",
+        "001100100001100",
+        "000110100011000",
+        "000001000000000",
+        "000001000000000",
+        "000000000000000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "MUSIC",
+      text: "♪ lofi beats",
+      grid: [
+        "000000000000000",
+        "000000011000000",
+        "000000011100000",
+        "000000011110000",
+        "000000011011100",
+        "000000011001100",
+        "000000011001100",
+        "000000011000100",
+        "000000011000000",
+        "000000011000000",
+        "000011111000000",
+        "001111111000000",
+        "001111111000000",
+        "000011110000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "MOON",
+      text: "moon",
+      grid: [
+        "000000000000000",
+        "000000011111000",
+        "000001111100000",
+        "000011110000000",
+        "000011110000000",
+        "000111100000000",
+        "000111100000000",
+        "000111100000000",
+        "000111100000000",
+        "000111100000000",
+        "000011110000000",
+        "000011110000000",
+        "000001111100000",
+        "000000011111000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "CAT",
+      text: "(=^･ω･^=)",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "001100000001100",
+        "001110000011100",
+        "001111111111100",
+        "011111111111110",
+        "011001111100110",
+        "011001111100110",
+        "011111111111110",
+        "011111101111110",
+        "011111010111110",
+        "001111111111100",
+        "000111111111000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "GHOST",
+      text: "boo!",
+      isRed: true,
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "000001111100000",
+        "000111111111000",
+        "001111111111100",
+        "011100111001110",
+        "011100111001110",
+        "011111111111110",
+        "011111111111110",
+        "011111111111110",
+        "011111111111110",
+        "011011101110110",
+        "010001000100010",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "ROCKET",
+      text: "to the mooooooon",
+      grid: [
+        "000000000000000",
+        "000000010000000",
+        "000000111000000",
+        "000001111100000",
+        "000001111100000",
+        "000001101100000",
+        "000001111100000",
+        "000011111110000",
+        "000111111111000",
+        "001111111111100",
+        "011101111101110",
+        "011001111100110",
+        "000000111000000",
+        "000000010000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "GAME",
+      text: "[>] press start",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "001111111111100",
+        "011111111111110",
+        "011111111111110",
+        "010101111101010",
+        "001110111011100",
+        "010101111101010",
+        "011111111111110",
+        "011111000111110",
+        "011000000000110",
+        "011000000000110",
+        "001000000000100",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "BULB",
+      text: "(!) new commit",
+      grid: [
+        "000000000000000",
+        "000001111100000",
+        "000111111111000",
+        "001111111111100",
+        "001101111111100",
+        "001011111111100",
+        "001011111111100",
+        "001111111111100",
+        "000111111111000",
+        "000011111110000",
+        "000001111100000",
+        "000000111000000",
+        "000001111100000",
+        "000000111000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "DIAMOND",
+      text: "<> handcrafted",
+      grid: [
+        "000000000000000",
+        "000000010000000",
+        "000000111000000",
+        "000001111100000",
+        "000011111110000",
+        "000111111111000",
+        "001111111111100",
+        "011111111111110",
+        "001111111111100",
+        "000111111111000",
+        "000011111110000",
+        "000001111100000",
+        "000000111000000",
+        "000000010000000",
+        "000000000000000",
+      ],
+    },
+    {
+      id: "SKULL",
+      text: "kernel panic",
+      grid: [
+        "000000000000000",
+        "000000000000000",
+        "000001111100000",
+        "000011111110000",
+        "000111111111000",
+        "001111111111100",
+        "011111111111110",
+        "011001111100110",
+        "011001111100110",
+        "011001111100110",
+        "001111010111100",
+        "000111111111000",
+        "000010101010000",
+        "000000000000000",
+        "000000000000000",
+      ],
+    },
+  ];
+
+  function setupGlyphMatrix() {
+    const gridContainer = document.getElementById("glyph-grid");
+    const faceTag = document.getElementById("glyph-face-tag");
+    const reactionText = document.getElementById("glyph-reaction");
+    const screen = document.getElementById("glyph-screen");
+
+    if (!gridContainer) return;
+
+    const GRID_SIZE = 15;
+    const TOTAL_DOTS = GRID_SIZE * GRID_SIZE; // 225
+
+    // Create LED dots
+    gridContainer.innerHTML = "";
+    const dots: HTMLDivElement[] = [];
+    for (let i = 0; i < TOTAL_DOTS; i++) {
+      const dot = document.createElement("div");
+      dot.className = "glyph-dot";
+      gridContainer.appendChild(dot);
+      dots.push(dot);
+    }
+
+    let currentIndex = 0;
+
+    function renderFace(index: number) {
+      currentIndex = index % GLYPH_FACES.length;
+      const face = GLYPH_FACES[currentIndex];
+
+      if (faceTag) faceTag.textContent = face.id;
+      if (reactionText) reactionText.textContent = face.text;
+
+      let dotIndex = 0;
+      for (let r = 0; r < GRID_SIZE; r++) {
+        // Guard against short rows so a typo can never shift the grid
+        const rowStr = (face.grid[r] ?? "").padEnd(GRID_SIZE, "0");
+        for (let c = 0; c < GRID_SIZE; c++) {
+          const isOn = rowStr[c] === "1";
+          const dot = dots[dotIndex];
+          if (dot) {
+            dot.className = "glyph-dot";
+            if (isOn) {
+              dot.classList.add(face.isRed ? "active-red" : "active");
+            }
+          }
+          dotIndex++;
+        }
+      }
+    }
+
+    function spawnParticle(x: number, y: number, emoji: string) {
+      const particle = document.createElement("span");
+      particle.className = "glyph-particle";
+      particle.textContent = emoji;
+      particle.style.left = `${x}px`;
+      particle.style.top = `${y}px`;
+      document.body.appendChild(particle);
+      setTimeout(() => particle.remove(), 900);
+    }
+
+    // Shuffle-bag: prioritize unseen faces, reset when all shown
+    const seenIndices = new Set<number>();
+    seenIndices.add(currentIndex);
+
+    function getRandomIndex(exclude: number): number {
+      // Build pool of unseen indices (excluding current)
+      let pool = Array.from({ length: GLYPH_FACES.length }, (_, i) => i).filter(
+        (i) => i !== exclude && !seenIndices.has(i),
+      );
+
+      // If all faces have been seen, reset and allow any except current
+      if (pool.length === 0) {
+        seenIndices.clear();
+        pool = Array.from({ length: GLYPH_FACES.length }, (_, i) => i).filter(
+          (i) => i !== exclude,
+        );
+      }
+
+      const next = pool[Math.floor(Math.random() * pool.length)];
+      seenIndices.add(next);
+      return next;
+    }
+
+    function nextExpression(e?: Event) {
+      renderFace(getRandomIndex(currentIndex));
+
+      if (screen) {
+        screen.classList.add("scale-[1.03]");
+        setTimeout(() => screen.classList.remove("scale-[1.03]"), 180);
+      }
+
+      if (e) {
+        const mouseEvent = e as MouseEvent;
+        const rect = screen?.getBoundingClientRect();
+        if (rect) {
+          const x = mouseEvent.clientX || rect.left + rect.width / 2;
+          const y = mouseEvent.clientY || rect.top + rect.height / 2;
+          const glyphs = [
+            "*",
+            "#",
+            "+",
+            "×",
+            "◆",
+            "◇",
+            "●",
+            "○",
+            "■",
+            "□",
+            "▲",
+            "△",
+            "★",
+            "☆",
+            "♦",
+          ];
+          spawnParticle(
+            x,
+            y,
+            glyphs[Math.floor(Math.random() * glyphs.length)],
+          );
+        }
+      }
+    }
+
+    let autoTimer: ReturnType<typeof setInterval> | null = null;
+
+    function resetTimer() {
+      if (autoTimer) clearInterval(autoTimer);
+      autoTimer = setInterval(() => {
+        nextExpression();
+      }, 6000);
+    }
+
+    screen?.addEventListener("click", (e) => {
+      nextExpression(e);
+      resetTimer();
+    });
+
+    // Initial render (SMILE)
+    renderFace(currentIndex);
+
+    // Start auto-cycle
+    resetTimer();
+
+    // Clean up when navigating away
+    document.addEventListener(
+      "astro:before-swap",
+      () => {
+        if (autoTimer) clearInterval(autoTimer);
+      },
+      { once: true },
+    );
+  }
+
+  document.addEventListener("astro:page-load", setupGlyphMatrix);
+</script>

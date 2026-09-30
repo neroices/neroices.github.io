@@ -1,0 +1,640 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SupportIcon from "../components/SupportIcon.astro";
+import GlyphMatrix from "../components/GlyphMatrix.astro";
+import { acceptedMethods, supporters } from "../data/support.js";
+
+const githubMethod = acceptedMethods.find((m) => m.id === "github");
+const liberapayMethod = acceptedMethods.find((m) => m.id === "liberapay");
+---
+
+<Layout title="Support — neroices">
+  <section class="pb-24 pt-8 md:pt-16 relative overflow-hidden">
+    <!-- Header with interactive Glyph Matrix widget -->
+    <div class="mb-12 animate-fade-in-up" style="animation-delay: 40ms;">
+      <div
+        class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6"
+      >
+        <div>
+          <div class="mb-3 flex items-center gap-2">
+            <span class="relative flex h-2.5 w-2.5">
+              <span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-primary)] opacity-75"
+              ></span>
+              <span
+                class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--color-primary)]"
+              ></span>
+            </span>
+            <p
+              class="font-mono text-xs sm:text-sm font-medium text-[var(--color-primary)]"
+            >
+              ~/support
+            </p>
+          </div>
+
+          <h1
+            class="font-[var(--font-display)] text-5xl font-black tracking-tight sm:text-6xl md:text-7xl"
+            style="font-variation-settings: 'wght' 900, 'wdth' 100;"
+          >
+            Buy me a coffee<br class="hidden sm:inline" />
+            <span class="text-[var(--color-primary)]">(or tea :3)</span>
+          </h1>
+
+          <p
+            class="mt-4 max-w-xl text-base sm:text-lg leading-relaxed text-[var(--color-secondary)]"
+          >
+            I maintain custom Android ROMs, build web projects, and create
+            open-source desktop tools and configs. If any of my builds or repos
+            saved you time, tossing a tip or sponsoring my work is always
+            appreciated.
+          </p>
+        </div>
+
+        <GlyphMatrix class="w-full sm:w-auto" />
+      </div>
+    </div>
+
+    <!-- Accepted Methods -->
+    <div class="mb-14">
+      <div
+        class="mb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-1 animate-fade-in-up"
+        style="animation-delay: 120ms;"
+      >
+        <div>
+          <h2 class="font-[var(--font-display)] text-2xl font-bold sm:text-3xl">
+            Available options
+          </h2>
+          <p class="text-sm text-[var(--color-secondary)]">
+            Choose whichever platform you prefer.
+          </p>
+        </div>
+        <span class="font-mono text-xs text-[var(--color-secondary)]">
+          2 options
+        </span>
+      </div>
+
+      <!-- Channels Grid: GitHub, Liberapay -->
+      <div class="grid gap-6 md:grid-cols-2">
+        <!-- 1. GitHub Sponsors -->
+        {
+          githubMethod && (
+            <div
+              class="card-lift theme-transition flex flex-col justify-between rounded-[var(--radius-xl)] border border-[var(--color-surface-dim)] bg-[var(--color-surface-container)] p-6 sm:p-7 shadow-xs hover:border-[var(--color-primary)]/40 transition-all duration-300 animate-fade-in-up"
+              style="animation-delay: 180ms;"
+            >
+              <div>
+                <div class="flex items-center justify-between gap-2">
+                  <span class="spring grid h-12 w-12 place-items-center rounded-2xl bg-[var(--color-primary-container)] text-[var(--color-on-primary-container)] group-hover:rotate-6">
+                    <SupportIcon name="github" class="h-6 w-6" />
+                  </span>
+                  <span class="rounded-full bg-[var(--color-primary-container)] px-3 py-1 font-mono text-xs font-semibold text-[var(--color-on-primary-container)]">
+                    {githubMethod.badge}
+                  </span>
+                </div>
+
+                <h3 class="mt-5 font-[var(--font-display)] text-2xl font-bold text-[var(--color-ink)]">
+                  {githubMethod.name}
+                </h3>
+                <p class="mt-0.5 font-mono text-xs text-[var(--color-primary)]">
+                  {githubMethod.handle}
+                </p>
+
+                <p class="mt-3 text-sm leading-relaxed text-[var(--color-secondary)]">
+                  {githubMethod.description}
+                </p>
+
+                <div class="mt-4 flex flex-wrap gap-1.5">
+                  {githubMethod.benefits.map((s) => (
+                    <span
+                      class:list={[
+                        "rounded-md px-2 py-0.5 text-[11px] font-mono border",
+                        s.toLowerCase().includes("badge")
+                          ? "bg-[var(--color-primary)]/15 text-[var(--color-primary)] border-[var(--color-primary)]/30 font-medium"
+                          : "bg-[var(--color-surface)] text-[var(--color-secondary)] border-[var(--color-surface-dim)]",
+                      ]}
+                    >
+                      {s.toLowerCase().includes("badge") && "🏅 "}
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div class="mt-6 pt-5 border-t border-[var(--color-surface-dim)]">
+                <a
+                  href={githubMethod.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-lift flex w-full items-center justify-center gap-2 rounded-full bg-[var(--color-primary-container)] px-5 py-3 text-sm font-semibold text-[var(--color-on-primary-container)] shadow-xs transition-all hover:bg-[var(--color-primary-container)]/80 group"
+                >
+                  <span>{githubMethod.buttonText || "Sponsor on GitHub"}</span>
+                  <span class="transform transition-transform duration-200 group-hover:translate-x-1">
+                    ↗
+                  </span>
+                </a>
+              </div>
+            </div>
+          )
+        }
+
+        <!-- 2. Liberapay -->
+        {
+          liberapayMethod && (
+            <div
+              class="card-lift theme-transition flex flex-col justify-between rounded-[var(--radius-xl)] border border-[var(--color-surface-dim)] bg-[var(--color-surface-container)] p-6 sm:p-7 shadow-xs hover:border-[var(--color-tertiary)]/40 transition-all duration-300 animate-fade-in-up"
+              style="animation-delay: 240ms;"
+            >
+              <div>
+                <div class="flex items-center justify-between gap-2">
+                  <span class="spring grid h-12 w-12 place-items-center rounded-2xl bg-[var(--color-tertiary-container)] text-[var(--color-ink)] group-hover:rotate-6">
+                    <SupportIcon name="liberapay" class="h-6 w-6" />
+                  </span>
+                  <span class="rounded-full bg-[var(--color-tertiary-container)] px-3 py-1 font-mono text-xs font-semibold text-[var(--color-ink)]">
+                    {liberapayMethod.badge}
+                  </span>
+                </div>
+
+                <h3 class="mt-5 font-[var(--font-display)] text-2xl font-bold text-[var(--color-ink)]">
+                  {liberapayMethod.name}
+                </h3>
+                <p class="mt-0.5 font-mono text-xs text-[var(--color-primary)]">
+                  {liberapayMethod.handle}
+                </p>
+
+                <p class="mt-3 text-sm leading-relaxed text-[var(--color-secondary)]">
+                  {liberapayMethod.description}
+                </p>
+
+                <div class="mt-4 flex flex-wrap gap-1.5">
+                  {liberapayMethod.benefits.map((s) => (
+                    <span class="rounded-md bg-[var(--color-surface)] px-2 py-0.5 text-[11px] font-mono text-[var(--color-secondary)] border border-[var(--color-surface-dim)]">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div class="mt-6 pt-5 border-t border-[var(--color-surface-dim)]">
+                <a
+                  href={liberapayMethod.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-lift flex w-full items-center justify-center gap-2 rounded-full bg-[var(--color-tertiary-container)] px-5 py-3 text-sm font-semibold text-[var(--color-ink)] shadow-xs transition-all hover:bg-[var(--color-tertiary-container)]/80 group"
+                >
+                  <span>
+                    {liberapayMethod.buttonText || "Support via Liberapay"}
+                  </span>
+                  <span class="transform transition-transform duration-200 group-hover:translate-x-1">
+                    ↗
+                  </span>
+                </a>
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </div>
+
+    <!-- Alternative Support Section -->
+    <div
+      class="rounded-[var(--radius-xl)] border border-[var(--color-surface-dim)] bg-[var(--color-surface-container)]/50 p-6 sm:p-8 animate-fade-in-up"
+      style="animation-delay: 360ms;"
+    >
+      <div
+        class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+      >
+        <div>
+          <h3
+            class="font-[var(--font-display)] text-xl sm:text-2xl font-bold text-[var(--color-ink)]"
+          >
+            Other ways to support
+          </h3>
+          <p
+            class="mt-2 max-w-xl text-sm leading-relaxed text-[var(--color-secondary)]"
+          >
+            Financial support is never expected. If you'd like to help in other
+            ways, starring repositories on{" "}
+            <a
+              href="https://github.com/neroices"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-semibold text-[var(--color-primary)] underline underline-offset-2 hover:opacity-80"
+              >GitHub</a
+            >, sharing projects, or dropping a message via{" "}
+            <a
+              href="/contact"
+              class="font-semibold text-[var(--color-primary)] underline underline-offset-2 hover:opacity-80"
+              >contact</a
+            >{" "}is always appreciated.
+          </p>
+        </div>
+
+        <!-- Terminal Box: Donors List -->
+        <div
+          id="pacman-box-btn"
+          title="All-time supporters"
+          class="w-full md:w-80 lg:w-96 shrink-0 rounded-xl border border-[var(--color-surface-dim)] bg-[var(--color-surface)] p-4 font-mono text-xs text-left text-[var(--color-secondary)] hover:border-[var(--color-primary)]/40 transition-all flex flex-col group"
+        >
+          <!-- Terminal Header -->
+          <div
+            class="flex items-center justify-between pb-2 border-b border-[var(--color-surface-dim)] shrink-0 gap-2 min-h-[30px]"
+          >
+            <!-- Title -->
+            <p
+              id="terminal-prompt-title"
+              class="text-[var(--color-primary)] font-semibold flex items-center gap-1.5 truncate"
+            >
+              <span>~ ⋊> cat ~/.supporters</span>
+            </p>
+
+            <!-- Actions: Search Trigger & Backers count -->
+            <div
+              id="terminal-header-actions"
+              class="flex items-center gap-1.5 shrink-0"
+            >
+              <button
+                type="button"
+                id="search-toggle-btn"
+                title="Find supporter (Press '/')"
+                class="flex items-center gap-1 px-1.5 py-0.5 rounded-md border border-[var(--color-surface-dim)] bg-[var(--color-surface-container)] hover:bg-[var(--color-surface-dim)]/50 text-[var(--color-secondary)] hover:text-[var(--color-ink)] transition-all cursor-pointer text-[10px] font-mono group/btn"
+              >
+                <svg
+                  class="h-3 w-3 text-[var(--color-secondary)] group-hover/btn:text-[var(--color-primary)] transition-colors"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7Z"
+                  ></path>
+                </svg>
+                <kbd
+                  class="text-[9px] px-1 rounded bg-[var(--color-surface-dim)] text-[var(--color-secondary)] border border-[var(--color-surface-dim)] font-mono"
+                  >/</kbd
+                >
+              </button>
+
+              <span
+                id="backers-count-badge"
+                class="text-[10px] text-[var(--color-secondary)] bg-[var(--color-surface-dim)]/50 px-1.5 py-0.5 rounded font-mono"
+              >
+                {supporters.length} all-time
+              </span>
+            </div>
+
+            <!-- GitHub-Style Inline Search Bar (Hidden by default, shown on toggle) -->
+            <div
+              id="terminal-search-bar"
+              class="hidden flex-1 items-center gap-1.5"
+            >
+              <div class="relative flex-1 flex items-center">
+                <svg
+                  class="absolute left-2 h-3 w-3 text-[var(--color-secondary)] pointer-events-none"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7Z"
+                  ></path>
+                </svg>
+                <input
+                  type="text"
+                  id="donor-search-input"
+                  placeholder="Find backer..."
+                  autocomplete="off"
+                  spellcheck="false"
+                  class="w-full bg-[var(--color-surface-container)] border border-[var(--color-surface-dim)] rounded-md pl-6 pr-2 py-0.5 text-[11px] font-mono text-[var(--color-ink)] placeholder-[var(--color-secondary)]/50 focus:outline-none focus:border-[var(--color-primary)] transition-all"
+                />
+              </div>
+
+              <span
+                id="search-results-count"
+                class="text-[10px] font-mono text-[var(--color-secondary)] shrink-0"
+              >
+                {supporters.length}
+              </span>
+
+              <button
+                type="button"
+                id="search-close-btn"
+                title="Close search (Esc)"
+                class="p-0.5 rounded hover:bg-[var(--color-surface-dim)] text-[var(--color-secondary)] hover:text-[var(--color-ink)] transition-colors shrink-0 cursor-pointer"
+              >
+                <svg
+                  class="h-3.5 w-3.5"
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Scrollable Donors List -->
+          <div
+            id="donors-scroll-list"
+            class="overflow-y-auto terminal-scrollbar mt-2.5 space-y-1.5 h-[84px] pr-1"
+          >
+            {
+              supporters.map((name, index) => (
+                <div
+                  class="donor-item flex items-center gap-2 text-xs py-0.5 hover:text-[var(--color-ink)] transition-colors"
+                  data-name={name.toLowerCase()}
+                >
+                  <span class="text-[var(--color-secondary)]/50 text-[10px] w-4 text-right shrink-0">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span class="donor-name text-[var(--color-ink)] font-medium truncate">
+                    {name}
+                  </span>
+                </div>
+              ))
+            }
+
+            <!-- Empty Search State -->
+            <div
+              id="donor-empty-search"
+              class="hidden text-[11px] text-[var(--color-secondary)] py-2 text-center"
+            >
+              <span>grep: no supporters found</span>
+            </div>
+
+            <!-- Terminal Prompt after scrolling to the bottom -->
+            <div id="terminal-bottom-prompt" class="pt-1.5">
+              <hr class="border-[var(--color-surface-dim)] mb-1.5" />
+              <div
+                class="flex items-center gap-1 text-[var(--color-primary)] font-semibold text-xs"
+              >
+                <span>~ ⋊></span>
+                <span class="terminal-cursor animate-blink">_</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Entrance animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* Blinking terminal cursor */
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .animate-blink {
+    animation: blink 1s step-end infinite;
+  }
+
+  /* Terminal scrollbar */
+  .terminal-scrollbar::-webkit-scrollbar {
+    width: 4px;
+  }
+  .terminal-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .terminal-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--color-surface-dim);
+    border-radius: 9999px;
+  }
+  .terminal-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary);
+  }
+  .terminal-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-surface-dim) transparent;
+  }
+
+  /* Coin drop animation */
+  @keyframes coinFall {
+    0% {
+      opacity: 0;
+      transform: translateY(-50px) scale(0.6) rotate(-20deg);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(10px) scale(1.1) rotate(10deg);
+    }
+    75% {
+      opacity: 2px;
+      transform: translateY(2px) scale(0.95) rotate(-5deg);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(6px) scale(1) rotate(0deg);
+    }
+  }
+
+  :global(.falling-coin) {
+    position: absolute;
+    font-size: 1.25rem;
+    pointer-events: none;
+    animation: coinFall 0.5s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+  }
+
+  /* Floating particle for clicking elements */
+  :global(.tip-particle) {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 1.5rem;
+    animation: floatUpParticle 0.9s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+  }
+
+  @keyframes floatUpParticle {
+    0% {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(0.6) rotate(0deg);
+    }
+    50% {
+      opacity: 1;
+      transform: translate(-50%, -60px) scale(1.3) rotate(15deg);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-50%, -110px) scale(1) rotate(-15deg);
+    }
+  }
+</style>
+
+<script>
+  function spawnCoinParticle(x: number, y: number, emoji: string = "🪙") {
+    const particle = document.createElement("span");
+    particle.className = "tip-particle";
+    particle.textContent = emoji;
+    particle.style.left = `${x}px`;
+    particle.style.top = `${y}px`;
+    document.body.appendChild(particle);
+
+    setTimeout(() => {
+      particle.remove();
+    }, 900);
+  }
+
+  function setupDonorSearch() {
+    const searchToggleBtn = document.getElementById("search-toggle-btn");
+    const searchCloseBtn = document.getElementById("search-close-btn");
+    const searchBar = document.getElementById("terminal-search-bar");
+    const promptTitle = document.getElementById("terminal-prompt-title");
+    const headerActions = document.getElementById("terminal-header-actions");
+    const searchInput = document.getElementById(
+      "donor-search-input",
+    ) as HTMLInputElement | null;
+    const resultsCount = document.getElementById("search-results-count");
+    const emptyState = document.getElementById("donor-empty-search");
+    const bottomPrompt = document.getElementById("terminal-bottom-prompt");
+    const donorItems = document.querySelectorAll<HTMLElement>(".donor-item");
+
+    function openSearch() {
+      searchBar?.classList.remove("hidden");
+      searchBar?.classList.add("flex");
+      promptTitle?.classList.add("hidden");
+      headerActions?.classList.add("hidden");
+      searchInput?.focus();
+      if (searchInput && searchInput.value) {
+        filterDonors(searchInput.value);
+      }
+    }
+
+    function closeSearch() {
+      searchBar?.classList.add("hidden");
+      searchBar?.classList.remove("flex");
+      promptTitle?.classList.remove("hidden");
+      headerActions?.classList.remove("hidden");
+      if (searchInput) {
+        searchInput.value = "";
+      }
+      filterDonors("");
+    }
+
+    function filterDonors(query: string) {
+      const q = query.trim().toLowerCase();
+      let matchCount = 0;
+
+      donorItems.forEach((item) => {
+        const name = item.dataset.name || "";
+        const matches = !q || name.includes(q);
+        if (matches) {
+          item.style.display = "";
+          matchCount++;
+        } else {
+          item.style.display = "none";
+        }
+      });
+
+      if (resultsCount) {
+        resultsCount.textContent = q
+          ? `${matchCount} found`
+          : `${donorItems.length}`;
+      }
+
+      if (emptyState) {
+        if (matchCount === 0 && q) {
+          emptyState.classList.remove("hidden");
+          emptyState.innerHTML = `grep: no match for "<span class="text-[var(--color-primary)]">${query}</span>"`;
+        } else {
+          emptyState.classList.add("hidden");
+        }
+      }
+
+      if (bottomPrompt) {
+        bottomPrompt.style.display = matchCount === 0 ? "none" : "";
+      }
+    }
+
+    searchToggleBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openSearch();
+    });
+
+    searchCloseBtn?.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeSearch();
+    });
+
+    searchInput?.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+
+    searchInput?.addEventListener("input", (e) => {
+      filterDonors((e.target as HTMLInputElement).value);
+    });
+
+    searchInput?.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        closeSearch();
+      }
+    });
+
+    // Keyboard shortcut: Press '/' when not inside an input/textarea
+    const onGlobalKeydown = (e: KeyboardEvent) => {
+      if (
+        e.key === "/" &&
+        document.activeElement?.tagName !== "INPUT" &&
+        document.activeElement?.tagName !== "TEXTAREA"
+      ) {
+        e.preventDefault();
+        openSearch();
+      }
+    };
+
+    window.removeEventListener("keydown", onGlobalKeydown);
+    window.addEventListener("keydown", onGlobalKeydown);
+  }
+
+  function setupInteractiveExperience() {
+    // Terminal Click Effect
+    const pacmanBtn = document.getElementById("pacman-box-btn");
+    pacmanBtn?.addEventListener("click", (e) => {
+      // Don't spawn coin particles when clicking search inputs or buttons
+      const target = e.target as HTMLElement;
+      if (
+        target.closest("#terminal-search-bar") ||
+        target.closest("#search-toggle-btn") ||
+        target.closest("input") ||
+        target.closest("button")
+      ) {
+        return;
+      }
+
+      const mouseEvent = e as MouseEvent;
+      const rect = pacmanBtn.getBoundingClientRect();
+      const x = mouseEvent.clientX || rect.left + rect.width / 2;
+      const y = mouseEvent.clientY || rect.top + rect.height / 2;
+
+      spawnCoinParticle(x - 15, y, "✨");
+      spawnCoinParticle(x, y - 10, "☕");
+      spawnCoinParticle(x + 15, y, "✨");
+    });
+
+    setupDonorSearch();
+  }
+
+  setupInteractiveExperience();
+  document.addEventListener("astro:page-load", setupInteractiveExperience);
+</script>
