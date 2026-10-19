@@ -1,7 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import SupportIcon from "../components/SupportIcon.astro";
-import GlyphMatrix from "../components/GlyphMatrix.astro";
 import { acceptedMethods, supporters } from "../data/support.js";
 
 const githubMethod = acceptedMethods.find((m) => m.id === "github");
@@ -10,48 +9,40 @@ const liberapayMethod = acceptedMethods.find((m) => m.id === "liberapay");
 
 <Layout title="Support — neroices">
   <section class="pb-24 pt-8 md:pt-16 relative overflow-hidden">
-    <!-- Header with interactive Glyph Matrix widget -->
+    <!-- Header -->
     <div class="mb-12 animate-fade-in-up" style="animation-delay: 40ms;">
-      <div
-        class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6"
-      >
-        <div>
-          <div class="mb-3 flex items-center gap-2">
-            <span class="relative flex h-2.5 w-2.5">
-              <span
-                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-primary)] opacity-75"
-              ></span>
-              <span
-                class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--color-primary)]"
-              ></span>
-            </span>
-            <p
-              class="font-mono text-xs sm:text-sm font-medium text-[var(--color-primary)]"
-            >
-              ~/support
-            </p>
-          </div>
-
-          <h1
-            class="font-[var(--font-display)] text-5xl font-black tracking-tight sm:text-6xl md:text-7xl"
-            style="font-variation-settings: 'wght' 900, 'wdth' 100;"
-          >
-            Buy me a coffee<br class="hidden sm:inline" />
-            <span class="text-[var(--color-primary)]">(or tea :3)</span>
-          </h1>
-
-          <p
-            class="mt-4 max-w-xl text-base sm:text-lg leading-relaxed text-[var(--color-secondary)]"
-          >
-            I maintain custom Android ROMs, build web projects, and create
-            open-source desktop tools and configs. If any of my builds or repos
-            saved you time, tossing a tip or sponsoring my work is always
-            appreciated.
-          </p>
-        </div>
-
-        <GlyphMatrix class="w-full sm:w-auto" />
+      <div class="mb-3 flex items-center gap-2">
+        <span class="relative flex h-2.5 w-2.5">
+          <span
+            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-primary)] opacity-75"
+          ></span>
+          <span
+            class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--color-primary)]"
+          ></span>
+        </span>
+        <p
+          class="font-mono text-xs sm:text-sm font-medium text-[var(--color-primary)]"
+        >
+          ~/support
+        </p>
       </div>
+
+      <h1
+        class="font-[var(--font-display)] text-5xl font-black tracking-tight sm:text-6xl md:text-7xl"
+        style="font-variation-settings: 'wght' 900, 'wdth' 100;"
+      >
+        Buy me a coffee<br class="hidden sm:inline" />
+        <span class="text-[var(--color-primary)]">(or tea :3)</span>
+      </h1>
+
+      <p
+        class="mt-4 max-w-xl text-base sm:text-lg leading-relaxed text-[var(--color-secondary)]"
+      >
+        I maintain custom Android ROMs, build web projects, and create
+        open-source desktop tools and configs. If any of my builds or repos
+        saved you time, tossing a tip or sponsoring my work is always
+        appreciated.
+      </p>
     </div>
 
     <!-- Accepted Methods -->
